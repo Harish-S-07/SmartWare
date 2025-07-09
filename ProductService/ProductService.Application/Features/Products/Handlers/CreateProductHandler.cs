@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 using ProductService.Application.DTO.Product;
 using ProductService.Application.Features.Products.Commands;
 using ProductService.Domain.Entities;
@@ -10,7 +11,7 @@ using ProductService.Domain.Repositories;
 
 namespace ProductService.Application.Features.Products.Handlers
 {
-    public class CreateProductHandler
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, ProductDTO>
     {
         private readonly IProductRepository _repository;
 
@@ -19,7 +20,7 @@ namespace ProductService.Application.Features.Products.Handlers
             _repository = repository;
         }
 
-        public async Task<ProductDTO> Handle(CreateProductCommand command)
+        public async Task<ProductDTO> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var entity = new Product
             {
