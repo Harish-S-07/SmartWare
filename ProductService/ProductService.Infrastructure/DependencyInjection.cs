@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProductService.Application.Interface;
 using ProductService.Domain.Repositories;
+using ProductService.Infrastructure.Kafka;
 using ProductService.Infrastructure.Persistence;
 using ProductService.Infrastructure.Persistence.Repositories;
 
@@ -21,6 +23,7 @@ namespace ProductService.Infrastructure
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IKafkaProducer, KafkaProducer>();
 
             return services;
         }
