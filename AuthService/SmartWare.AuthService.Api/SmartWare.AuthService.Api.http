@@ -1,0 +1,6 @@
+@SmartWare.AuthService.Api_HostAddress = http://localhost:5162
+
+GET {{SmartWare.AuthService.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
