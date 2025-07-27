@@ -1,33 +1,161 @@
 version: '3.8'
 
 services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_db
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Smartware@SQLServer2025"
+    networks:
+      - smartware_network
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Smartware@SQLServer2025", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgreSQL@07
+      POSTGRES_DB: ProductDb
+    networks:
+      - smartware_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:latest
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    networks:
+      - smartware_network
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  mongodb:
+    image: mongo:6
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - smartware_network
+    volumes:
+      - mongo_data:/data/db
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.3
+    container_name: zookeeper
     ports:
       - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - smartware_network
 
   kafka:
     image: confluentinc/cp-kafka:7.5.3
+    container_name: kafka
     depends_on:
       - zookeeper
     ports:
       - "9092:9092"
+    healthcheck:
+       test: ["CMD-SHELL", "cub kafka-ready -b kafka:9092 1 10"]
+       interval: 10s
+       timeout: 10s
+       retries: 5
+       start_period: 20s
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - smartware_network
 
-  mongodb:
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+  authservice:
+      image: authservice:latest
+      build:
+        context: ./AuthService
+        dockerfile: Dockerfile
+      container_name: auth_service
+      ports:
+        - "5162:8080"
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ConnectionStrings__AuthConnection=Server=sqlserver_db;Database=SmartWare_AuthDb;User Id=sa;Password=Smartware@SQLServer2025;Encrypt=False;TrustServerCertificate=True;
+        - Redis__ConnectionString=redis:6379,abortConnect=false
+        - Jwt__Key=SmartWareAuthServiceSecretKey2025@Dev
+        - Jwt__Issuer=AuthService
+      depends_on:
+        - sqlserver
+        - redis
+      networks:
+        - smartware_network
+
+  productservice:
+      image: productservice:latest
+      build:
+        context: ./ProductService
+        dockerfile: Dockerfile
+      container_name: product_service
+      ports:
+        - "5047:8080"
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=ProductDb;Username=postgres;Password=postgreSQL@07
+        - Kafka__BootstrapServers=kafka:9092
+      depends_on:
+        - postgres
+        - kafka
+      networks:
+        - smartware_network
+
+  inventoryservice:
+      image: inventoryservice:latest
+      build:
+        context: ./InventoryService
+        dockerfile: Dockerfile
+      container_name: inventory_service
+      ports:
+        - "5001:8080"
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - MongoDb__ConnectionString=mongodb://mongo_db:27017
+        - MongoDb__DatabaseName=SmartWareInventory
+        - Kafka__BootstrapServers=kafka:9092
+      depends_on:
+        - mongodb
+        - kafka
+      restart: always
+      networks:
+        - smartware_network
+
+networks:
+  smartware_network:
+    driver: bridge
 
 volumes:
+  sqlserver_data:
+  postgres_data:
+  redis_data: 
   mongo_data:
+
