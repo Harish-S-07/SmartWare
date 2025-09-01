@@ -12,7 +12,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("https://localhost:5162/api/Auth/login", {
+            const response = await fetch("https://localhost:7105/api/Auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function Login() {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit" onClick={handleSubmit}>Login</button>
             </form>
         </div>
     );

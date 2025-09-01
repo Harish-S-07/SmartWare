@@ -99,6 +99,7 @@ services:
       container_name: auth_service
       ports:
         - "5162:8080"
+        - "7105:7105"
       environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - ConnectionStrings__AuthConnection=Server=sqlserver_db;Database=SmartWare_AuthDb;User Id=sa;Password=Smartware@SQLServer2025;Encrypt=False;TrustServerCertificate=True;
