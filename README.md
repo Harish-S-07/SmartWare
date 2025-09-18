@@ -43,8 +43,7 @@ SmartWare is a microservices-based inventory management system built with .NET C
 
 **Frontend**
 
-- React-based login page with JWT authentication
-- Simple, clean UI for authentication workflow
+- Basic React-based login page with JWT authentication
 
 **Database Integration**
 
@@ -68,29 +67,20 @@ SmartWare is a microservices-based inventory management system built with .NET C
 **Prerequisites**
 
 - .NET 8 SDK
-
 - SQL Server, PostgreSQL, MongoDB
-
 - Docker and Docker Compose
-
 - Node.js for frontend
 
 **Setup Instructions**
 
 - Clone the repository
-
 - Start services with Docker Compose: `docker-compose up --build`
-
-- Access Swagger for each service:
-
-AuthService – http://localhost:5162/swagger
-ProductService – http://localhost:5047/swagger
-InventoryService – http://localhost:5001/swagger
-
 - Run the frontend:
 
 `cd smartware-frontend`
+
 `npm install`
+
 `npm start`
 
 **Tech Stack**
@@ -107,8 +97,9 @@ InventoryService – http://localhost:5001/swagger
 
 - Authentication, Product, and Inventory services are functional
 - Kafka integration between Product and Inventory services is complete
-- React login page implemented
-- Upcoming: Extended frontend for product and inventory management, Azure deployment
+- Basic React login page implemented
+- AuthService deployed to Azure
+- Future scope: Extend frontend for product and inventory management
 
 **Author**
 
