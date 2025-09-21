@@ -4,19 +4,15 @@ SmartWare is a microservices-based inventory management system built with .NET C
 
 **Demo Videos**
 
-- **AuthService deployed in Azure** - [https://drive.google.com/file/d/1s-DLRFwmeGVKCBHE-l1U5ro_9-ddIi8Z/view?usp=sharing](AuthService-Azure)
-- **ProductService and InventoryService hosted with Kafka** - [https://drive.google.com/file/d/1YrfiqpHu745HC7kA8FjkLvmB-uKcR8OG/view?usp=sharing](ProductService-&-InventoryService)
+- **AuthService deployed in Azure** - [AuthSevice-Azure](https://drive.google.com/file/d/1s-DLRFwmeGVKCBHE-l1U5ro_9-ddIi8Z/view?usp=sharing)
+- **ProductService and InventoryService hosted with Kafka** - [ProductService-&-InventoryService](https://drive.google.com/file/d/1YrfiqpHu745HC7kA8FjkLvmB-uKcR8OG/view?usp=sharing)
 
 **Project Structure**
 
 - **AuthService** – Authentication and user management
-
 - **ProductService** – Product catalog management with PostgreSQL and Kafka producer
-
 - **InventoryService** – Inventory tracking with MongoDB and Kafka consumer
-
 - **smartware-frontend** – React-based simple login page
-
 - **docker-compose.yml** – Multi-service container setup with SQL Server, PostgreSQL, MongoDB, Kafka, Redis
 
 **Stakeholders and Roles**
