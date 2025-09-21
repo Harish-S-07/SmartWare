@@ -2,6 +2,11 @@
 
 SmartWare is a microservices-based inventory management system built with .NET Core using Clean Architecture. It demonstrates modern practices such as polyglot persistence, event-driven communication with Kafka, CQRS with MediatR, and dockerization.
 
+**Demo Videos**
+
+- **AuthService deployed in Azure** - [https://drive.google.com/file/d/1s-DLRFwmeGVKCBHE-l1U5ro_9-ddIi8Z/view?usp=sharing](AuthService-Azure)
+- **ProductService and InventoryService hosted with Kafka** - [https://drive.google.com/file/d/1YrfiqpHu745HC7kA8FjkLvmB-uKcR8OG/view?usp=sharing](ProductService-&-InventoryService)
+
 **Project Structure**
 
 - **AuthService** – Authentication and user management
@@ -90,7 +95,7 @@ SmartWare is a microservices-based inventory management system built with .NET C
 - Messaging: Apache Kafka
 - Authentication: JWT, Redis
 - Frontend: React
-- DevOps: Docker, Docker Compose, GitHub Actions, Azure (planned)
+- DevOps: Docker, Docker Compose, GitHub Actions, Azure
 - Testing: Swagger, xUnit
 
 **Project Status**
