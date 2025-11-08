@@ -106,7 +106,7 @@ SmartWare is a microservices-based inventory management system built with .NET C
 
 **Harish Shanmugavelan**  
 
-.NET Backend Developer (1.5+ years experience)  
+.NET Backend Developer (2 years experience)  
 
 **Email:** iharish7810@gmail.com  
 **GitHub:** [https://github.com/Harish-S-07](https://github.com/Harish-S-07)  
